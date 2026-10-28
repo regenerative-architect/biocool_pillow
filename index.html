@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BioCool Pillow™ – Cool Sleep, Clean Air, Living Planet</title>
+<meta name="description" content="BioCool Pillow™: a plant-based, self-cooling, air-cleaning pillow concept for healthy sleep and planetary wellness.">
+<style>
+/* 1. DESIGN TOKENS – change colours here; light and dark modes both read these variables. */
+:root{--bg:#f5f2e9;--bg2:#e6eee8;--ink:#17302e;--mute:#4a615e;--card:#ffffffd9;--line:#17302e24;--acc:#0b6b63;--warm:#9a4d08;--mint:#14b8a6;--sh:0 1px 2px #0002,0 10px 24px -10px #0003,0 30px 50px -30px #0003;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0b1716;--bg2:#10231f;--ink:#e7f1ee;--mute:#a3bbb6;--card:#142624b3;--line:#e7f1ee26;--acc:#5eead4;--warm:#fbbf77;--mint:#2dd4bf;--sh:0 1px 2px #0006,0 12px 28px -10px #000a,0 30px 50px -30px #000}}
+:root[data-theme=dark]{--bg:#0b1716;--bg2:#10231f;--ink:#e7f1ee;--mute:#a3bbb6;--card:#142624b3;--line:#e7f1ee26;--acc:#5eead4;--warm:#fbbf77;--mint:#2dd4bf;--sh:0 1px 2px #0006,0 12px 28px -10px #000a,0 30px 50px -30px #000}
+/* 2. BASE */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+body{margin:0;background:linear-gradient(var(--bg),var(--bg2)) fixed;color:var(--ink);font:17px/1.65 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+h1,h2,h3{font-family:ui-serif,Georgia,"Iowan Old Style",serif;line-height:1.15;margin:0 0 .5em}
+h3{font-size:1.1rem}a{color:var(--acc)}
+:focus-visible{outline:3px solid var(--warm);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--bg);color:var(--ink);padding:.5em 1em;z-index:40}.skip:focus{left:8px}
+.wrap{max-width:1120px;margin:auto;padding:0 20px}
+.btn{display:inline-block;padding:.6em 1.1em;margin:0 .4em .5em 0;border-radius:99px;border:1px solid currentColor;background:transparent;color:var(--ink);font:inherit;font-size:.95rem;cursor:pointer;text-decoration:none}
+.btn[aria-pressed=true]{background:var(--acc);color:var(--bg);border-color:var(--acc)}
+/* 3. HERO – a dark "night" scene; the canvas draws the drifting air particles and glowing filter core */
+.hero{position:relative;overflow:hidden;color:#eafaf6;min-height:80vh;display:grid;align-items:center;background:radial-gradient(120% 90% at 78% 45%,#0f3d3a,#07191a 60%,#040d0f)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%}
+.beam{position:absolute;inset:-20% -10% auto auto;width:70%;height:140%;pointer-events:none;mix-blend-mode:screen;filter:blur(18px);background:conic-gradient(from 200deg at 100% 0,#0000 0,#aef5e633 8%,#0000 16%,#ffd9a026 24%,#0000 33%);animation:sway 14s ease-in-out infinite alternate}
+@keyframes sway{to{transform:rotate(6deg) translateX(-3%)}}
+.hero-in{position:relative;width:100%;padding-top:72px;padding-bottom:72px}
+.hero h1{font-size:clamp(2.6rem,8vw,5.2rem);text-shadow:0 6px 30px #000a}
+.hero p{max-width:34em;margin:0 0 1em}.hero .btn{color:#eafaf6}.hero .btn[aria-pressed=true]{background:#2dd4bf;color:#04211e;border-color:#2dd4bf}.hero .btn.pri{background:#2dd4bf;color:#04211e;border-color:#2dd4bf}
+.eyebrow{letter-spacing:.18em;text-transform:uppercase;font-size:.8rem;color:#9ff3e3}.small{font-size:.85rem;opacity:.85}
+/* 4. LAYOUT – sticky table of contents on wide screens, a scrolling strip on phones */
+.layout{display:grid;grid-template-columns:210px 1fr;gap:32px;align-items:start;padding-top:28px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px)}
+.toc ul{list-style:none;margin:0;padding:0}
+.toc a{display:block;padding:.3em .7em;border-radius:8px;text-decoration:none;color:var(--mute);font-size:.93rem}
+.toc a[aria-current=true]{background:var(--card);color:var(--ink);box-shadow:inset 3px 0 var(--mint)}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.toc{top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line);margin:0 -20px;padding:6px 20px}.toc ul{display:flex;overflow-x:auto;gap:4px}.toc a{white-space:nowrap}}
+/* 5. CARDS (soft layered shadows give depth) */
+section{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:28px;margin-bottom:24px;box-shadow:var(--sh);backdrop-filter:blur(10px)}
+section h2{font-size:clamp(1.6rem,3.5vw,2.2rem)}.plain{color:var(--mute);margin-top:-.2em}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.tile{border:1px solid var(--line);border-radius:16px;padding:16px;background:#ffffff14}.tile p{margin:.3em 0 0}
+.chip{display:inline-block;font-size:.74rem;padding:.05em .6em;border-radius:99px;border:1px solid currentColor;white-space:nowrap;vertical-align:middle}
+.s{color:var(--acc)}.t{color:var(--warm)}.v{color:var(--mute)}
+.note{border-left:4px solid var(--warm);padding:.2em 1em;margin:1em 0;background:#ffffff0f;border-radius:0 12px 12px 0}
+.layer{cursor:pointer;transition:opacity .3s}.layer.dim{opacity:.3}
+.air{fill:none;stroke:#14b8a6;stroke-width:3;stroke-linecap:round;stroke-dasharray:6 12;animation:flow 2.5s linear infinite;pointer-events:none}
+@keyframes flow{to{stroke-dashoffset:-36}}
+label{display:block;margin:.6em 0 0;font-size:.95rem}input[type=range]{width:100%;accent-color:var(--acc)}
+.out{font:700 1.5rem ui-serif,Georgia,serif;margin:.4em 0 0}
+#breath{width:140px;height:140px;border-radius:50%;margin:12px auto;transform:scale(.55);transition:transform 6s ease-in-out;background:radial-gradient(circle at 35% 30%,#d6fff6,#2dd4bf 55%,#0b6b63);box-shadow:0 0 40px #2dd4bf66,0 20px 30px -10px #0006}
+#breath.in{transform:scale(1);transition-duration:4s}
+textarea{width:100%;min-height:90px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:10px;font:13px ui-monospace,monospace}
+footer{border-top:1px solid var(--line);padding:32px 20px 48px;color:var(--mute);font-size:.92rem}
+.zh{border:2px solid var(--acc);border-radius:16px;padding:6px 18px;color:var(--ink);margin-bottom:18px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#overview">Skip to content</a>
+
+<!-- HERO: first impression. The canvas (#fx) is drawn by the "Particle sky" script below. -->
+<header class="hero">
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <div class="beam" aria-hidden="true"></div>
+  <div class="wrap hero-in">
+    <p class="eyebrow">Sleep · Air · Regeneration</p>
+    <h1>BioCool Pillow™</h1>
+    <p style="font-size:1.25rem">A self-cooling, air-cleaning pillow for healthy sleep and planetary wellness.</p>
+    <p>Plant-derived cooling gel and a mycelium-carbon filter core, wrapped in breathable bamboo, designed to be refilled, composted and shared with care.</p>
+    <a class="btn pri" href="#how">See how it works</a>
+    <button class="btn" id="calm" aria-pressed="false">⏸ Calm mode: pause animation</button>
+    <p class="small">© 2025 Ricky Foster · Patent pending · Trademark registered (as stated by the project) · SleepLeaf Guardian Trust License (SLGTL-1.0): free for health and ecological research, licensed for retail and bulk production.</p>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <!-- TABLE OF CONTENTS. EXTEND: add a <section id="x"> below, then one <li><a href="#x"> here. -->
+  <nav class="toc" aria-label="Table of contents"><ul>
+    <li><a href="#overview">Overview</a></li><li><a href="#features">Core features</a></li>
+    <li><a href="#how">How it works</a></li><li><a href="#making">Manufacturing</a></li>
+    <li><a href="#uses">Use cases</a></li><li><a href="#impact">Environmental impact</a></li>
+    <li><a href="#legal">Legal protections</a></li><li><a href="#market">Market strategy</a></li>
+    <li><a href="#roadmap">Roadmap</a></li><li><a href="#rest">Rest &amp; restore</a></li>
+    <li><a href="#data">Your device, your data</a></li><li><a href="#contact">Contact</a></li>
+  </ul></nav>
+
+  <main>
+  <section id="overview">
+    <h2>Overview</h2>
+    <p class="plain">What this is: a next-generation sleep accessory concept. Start here.</p>
+    <p><strong>BioCool Pillow™</strong> keeps sleepers cool and healthy while contributing to a cleaner indoor environment. A <strong>plant-derived phase-change gel (PCG)</strong> absorbs body heat, and a <strong>mycelium-carbon air filter core</strong> passively removes allergens, particulates and trace toxins from the air near your face.</p>
+    <div class="note"><strong>Evidence key.</strong> Claims on this page carry a label so you can see how far they have been checked:
+      <span class="chip s">● Stated by project</span> as written by the project lead ·
+      <span class="chip t">◐ Design target</span> intended, testing planned ·
+      <span class="chip v">○ Needs validation</span> needs independent testing before anyone should rely on it.</div>
+  </section>
+
+  <section id="features">
+    <h2>Core features</h2>
+    <p class="plain">What it offers, in everyday words.</p>
+    <div class="grid">
+      <div class="tile"><h3>All-night cooling</h3><span class="chip t">◐ Design target</span><p>The PCG core absorbs heat and holds a consistent cool surface.</p></div>
+      <div class="tile"><h3>Air purification</h3><span class="chip v">○ Needs validation</span><p>The mycelium-carbon filter is meant to trap dust, VOCs and micro-particulates.</p></div>
+      <div class="tile"><h3>Sustainable &amp; compostable</h3><span class="chip t">◐ Design target</span><p>The core is intended to be biodegradable and non-toxic.</p></div>
+      <div class="tile"><h3>Hypoallergenic cover</h3><span class="chip s">● Stated by project</span><p>Removable bamboo-fibre cover: antimicrobial and machine-washable.</p></div>
+      <div class="tile"><h3>Durable &amp; refillable</h3><span class="chip s">● Stated by project</span><p>Core layers can be replaced or refreshed yearly for longevity.</p></div>
+    </div>
+  </section>
+
+  <section id="how">
+    <h2>How it works</h2>
+    <p class="plain">How to use this part: tap a numbered layer (or the matching colour in the picture) to learn what it does. The moving teal dashes show air flowing through the breathable cover.</p>
+    <!-- Illustrative cross-section, not to scale. EXTEND: add a <rect class="layer" data-l="name"> and a matching entry in L (script). -->
+    <svg viewBox="0 0 640 250" role="img" aria-label="Cross-section of the pillow showing four layers: bamboo cover, cooling gel, filter core and refill insert" style="width:100%;height:auto">
+      <defs>
+        <linearGradient id="gc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#efe3c6"/><stop offset="1" stop-color="#c4b186"/></linearGradient>
+        <linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b5f7ea"/><stop offset="1" stop-color="#2dd4bf"/></linearGradient>
+        <linearGradient id="gk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a3d36"/><stop offset="1" stop-color="#1c1917"/></linearGradient>
+        <linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fcd29a"/><stop offset="1" stop-color="#d97706"/></linearGradient>
+        <filter id="soft"><feGaussianBlur stdDeviation="9"/></filter>
+      </defs>
+      <ellipse cx="320" cy="226" rx="250" ry="14" fill="#000" opacity=".3" filter="url(#soft)"/>
+      <rect class="layer" data-l="cover" x="40" y="30" width="560" height="180" rx="80" fill="url(#gc)"/>
+      <rect class="layer" data-l="gel" x="78" y="58" width="484" height="124" rx="56" fill="url(#gg)"/>
+      <rect class="layer" data-l="core" x="130" y="84" width="380" height="72" rx="34" fill="url(#gk)"/>
+      <rect class="layer" data-l="refill" x="220" y="104" width="200" height="32" rx="16" fill="url(#gr)"/>
+      <ellipse cx="250" cy="52" rx="150" ry="9" fill="#fff" opacity=".35" pointer-events="none"/>
+      <path class="air" d="M10 120 Q120 70 240 118 T470 120 T630 112"/>
+    </svg>
+    <div id="lb">
+      <button class="btn" data-l="gel" aria-pressed="false">1 · Cooling gel</button>
+      <button class="btn" data-l="core" aria-pressed="false">2 · Filter core</button>
+      <button class="btn" data-l="cover" aria-pressed="false">3 · Bamboo cover</button>
+      <button class="btn" data-l="refill" aria-pressed="false">4 · Refill inserts</button>
+    </div>
+    <p id="li" aria-live="polite">Choose a layer to see what it does.</p>
+  </section>
+
+  <section id="making">
+    <h2>Manufacturing &amp; scalability</h2>
+    <p class="plain">What it’s made of, what it costs, and how it could reach people.</p>
+    <div class="grid">
+      <div class="tile"><h3>Materials</h3><p>Coconut- and soy-based phase-change gel · activated carbon and mycelium composite core · bamboo fibre outer cover.</p></div>
+      <div class="tile"><h3>Production</h3><p>Can use existing bedding and gel-cooling product lines. Production cost <strong>$25–$50</strong>; retail <strong>$80–$150</strong> per pillow. <span class="chip s">● Stated by project</span></p></div>
+      <div class="tile"><h3>Scalability</h3><p>Bedding retailers, eco-lifestyle brands and online direct-to-consumer stores. DAO-supported hubs can assemble region-specific versions from locally sourced materials.</p></div>
+    </div>
+    <h3 style="margin-top:1.2em">Try it: price and margin</h3>
+    <p class="plain">Move the sliders to see how price and cost change the gross margin. Sliders go slightly beyond the project’s ranges so you can explore.</p>
+    <label for="cost">Production cost: $<output id="vcost"></output></label><input type="range" id="cost" min="10" max="80" step="1">
+    <label for="price">Retail price: $<output id="vprice"></output></label><input type="range" id="price" min="40" max="250" step="1">
+    <p class="out" id="o2"></p><p id="o2b"></p>
+  </section>
+
+  <section id="uses">
+    <h2>Use cases</h2>
+    <p class="plain">Who it’s for.</p>
+    <div class="grid">
+      <div class="tile"><h3>Hot or humid climates</h3><p>All-night cooling comfort.</p></div>
+      <div class="tile"><h3>Allergy &amp; asthma comfort</h3><p>A cleaner-feeling breathing environment during sleep.</p></div>
+      <div class="tile"><h3>Luxury wellness</h3><p>Comfort, sustainability and health benefits together.</p></div>
+      <div class="tile"><h3>Eco-hotels &amp; resorts</h3><p>A marketable green amenity for sustainable hospitality.</p></div>
+    </div>
+    <div class="note">BioCool Pillow™ is not a medical device and does not diagnose, treat or cure any condition. If you have asthma or allergies, keep following your clinician’s advice.</div>
+  </section>
+
+  <section id="impact">
+    <h2>Environmental impact</h2>
+    <p class="plain">Why it matters for the planet, and a calculator that shows its assumptions openly.</p>
+    <ul>
+      <li>Replaces synthetic, non-biodegradable pillow cores with compostable, renewable materials. <span class="chip t">◐ Design target</span></li>
+      <li>Reduces reliance on energy-intensive air conditioning during sleep. <span class="chip v">○ Needs validation</span></li>
+      <li>The filter captures pollutants and reduces indoor air contaminants naturally. <span class="chip v">○ Needs validation</span></li>
+      <li>Each pillow is estimated to offset about <strong>50 kg of CO₂ per year</strong> through its material lifecycle and energy savings. <span class="chip v">○ Needs independent lifecycle assessment</span></li>
+    </ul>
+    <h3>Try it: impact explorer</h3>
+    <p class="plain">The 50 kg figure is the project’s own estimate, so treat the result as a “what if”, not a promise. Change the number as real measurements arrive.</p>
+    <label for="n">Pillows in use: <output id="vn"></output></label><input type="range" id="n" min="1" max="10000" step="1">
+    <label for="kg">Estimated kg CO₂ offset per pillow per year: <output id="vkg"></output></label><input type="range" id="kg" min="1" max="200" step="1">
+    <label for="yrs">Years: <output id="vyrs"></output></label><input type="range" id="yrs" min="1" max="10" step="1">
+    <p class="out" id="o1"></p><p>If the validated figure turned out 50% lower or higher: <strong id="o1b"></strong>.</p>
+  </section>
+
+  <section id="legal">
+    <h2>Legal protections</h2>
+    <p class="plain">What is claimed about ownership and sharing. Details are as written by the project lead; please check official filings before relying on them. This is not legal advice.</p>
+    <ul>
+      <li><strong>Trademark:</strong> <em>BioCool Pillow™</em> is stated to be registered under the Guardian Trust IP Framework. <span class="chip s">● Stated by project</span></li>
+      <li><strong>Patent pending:</strong> covers PCG integration with a mycelium-carbon filtration core and a refillable layer system. <span class="chip s">● Stated by project</span></li>
+      <li><strong>Copyright © 2025 Ricky Foster:</strong> schematics, branding and technical documentation.</li>
+      <li><strong>SLGTL-1.0:</strong> allows open use for health research and nonprofit initiatives; requires licensed retail production, routing profits to planetary restoration DAOs.</li>
+    </ul>
+  </section>
+
+  <section id="market">
+    <h2>Market strategy</h2>
+    <p class="plain">Who we’d serve and how it could reach them.</p>
+    <div class="grid">
+      <div class="tile"><h3>Target consumers</h3><p>Sleep enthusiasts, allergy sufferers, eco-conscious shoppers and luxury bedding buyers.</p></div>
+      <div class="tile"><h3>Sales channels</h3><p>Bedding and mattress retailers; online eco-lifestyle shops (Kickstarter, Shopify, Amazon); hospitality partnerships with eco-hotels and wellness resorts.</p></div>
+      <div class="tile"><h3>Selling points</h3><p>Sleep cooler, breathe cleaner and save energy with one product; sustainable materials plus a refill system; eligible for green certifications and wellness branding.</p></div>
+    </div>
+    <p>Projected profit margin: <strong>55–70%</strong>, with recurring revenue from refill kits and subscriptions. <span class="chip s">● Stated by project</span></p>
+    <div class="note"><strong>Fair-subscription principles (added).</strong> Plain pricing, one-click cancel, no countdown timers, no guilt-based messaging, and honest wording about what the pillow can and can’t do.</div>
+  </section>
+
+  <section id="roadmap">
+    <h2>Roadmap</h2>
+    <p class="plain">The plan in three phases. The dates come from the original 2025 README, so update them to the current plan.</p>
+    <div class="grid">
+      <div class="tile"><h3>Phase 1 · 2025 Q3</h3><p>Finalise PCG thermal stability and air-filtration testing. Begin pilot production and testing with eco-hotels and early adopters.</p></div>
+      <div class="tile"><h3>Phase 2 · 2025 Q4</h3><p>Launch via Kickstarter and online direct sales. Build distribution through bedding chains and wellness brands.</p></div>
+      <div class="tile"><h3>Phase 3 · 2026</h3><p>Expand into a full BioCool bedding line (toppers, cushions, blankets). Integrate smart sleep tracking and climate-adaptation modules <span class="chip v">Future extension</span></p></div>
+    </div>
+    <h3 style="margin-top:1.2em">Next validation steps <span class="chip v">Future extension</span></h3>
+    <ul><li>Independent thermal and air-filtration lab tests, with results published openly.</li><li>Compostability certification and a third-party lifecycle assessment of the CO₂ estimate.</li><li>Clinician review of all health wording.</li></ul>
+  </section>
+
+  <section id="rest">
+    <h2>Rest &amp; restore</h2>
+    <p class="plain">Added to the original: a gentle wind-down you can use tonight, with or without a pillow. How to use it: press Begin and breathe with the circle. The checklist is optional and stays on your device.</p>
+    <div class="grid">
+      <div class="tile" style="text-align:center"><div id="breath" role="img" aria-label="Breathing guide circle"></div><p id="bl" aria-live="polite">Ready when you are</p><button class="btn" id="bbtn" aria-pressed="false">Begin</button></div>
+      <div class="tile"><h3>Tonight’s wind-down</h3>
+        <label><input type="checkbox" class="rit"> Dim the lights</label>
+        <label><input type="checkbox" class="rit"> Cool, ventilated room</label>
+        <label><input type="checkbox" class="rit"> Screens away</label>
+        <label><input type="checkbox" class="rit"> Three slow breaths</label></div>
+    </div>
+  </section>
+
+  <section id="data">
+    <h2>Your device, your data</h2>
+    <p class="plain">This page has no accounts, trackers or analytics. Your choices below are saved only in this browser, so you can copy them, move them or erase them at any time.</p>
+    <p>Theme:
+      <button class="btn" data-th="auto" aria-pressed="false">Auto</button><button class="btn" data-th="light" aria-pressed="false">Light</button><button class="btn" data-th="dark" aria-pressed="false">Dark</button></p>
+    <textarea id="bundle" aria-label="Your settings as text" placeholder="Press “Show my settings” to see them here, or paste settings and press “Apply”."></textarea>
+    <p><button class="btn" id="show">Show my settings</button><button class="btn" id="apply">Apply pasted settings</button><button class="btn" id="reset">Reset everything</button></p>
+    <p id="status" role="status"></p>
+  </section>
+
+  <section id="contact">
+    <h2>Contact &amp; contributions</h2>
+    <p class="plain">Where to find the project.</p>
+    <p><strong>Project lead:</strong> Ricky Foster (Symbiote001)<br><strong>GitHub:</strong> github.com/TheRickyFoster <span class="chip v">Future extension: link to be confirmed</span></p>
+    <!-- EXTEND: once the project's current GitHub profile address is confirmed, turn the handle above into an <a href="…"> link. -->
+
+    <p><em>“The truth is not what I say. It’s what I’ve already done.”</em> – Ricky Foster</p>
+  </section>
+  </main>
+</div>
+
+<footer><div class="wrap">
+  <div class="zh"><p><strong>Zero Harm &amp; Anti-Coercion.</strong> This page uses no trackers, analytics, cookies or hidden network calls. Saved choices live only in your browser and can be erased in “Your device, your data”. Nothing here is built to pressure, shame, profile or manipulate anyone, and health information is general, not medical advice. If you adapt this page, please keep it that way.</p></div>
+  <p>© 2025 Ricky Foster · BioCool Pillow™ · SLGTL-1.0</p>
+</div></footer>
+
+<noscript><p class="wrap">Interactive extras need JavaScript. All of the content above is readable without it.</p></noscript>
+
+<script>
+(()=>{"use strict";
+/* ===== A. HELPERS & LOCAL STORAGE =====
+   All saved settings live under one key ("bcp:state") in this browser only. Nothing is ever sent anywhere. */
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const K="bcp:",say=m=>{$("#status").textContent=m};
+const load=()=>{try{return JSON.parse(localStorage.getItem(K+"state"))||{}}catch(e){return{}}};
+const save=()=>{try{localStorage.setItem(K+"state",JSON.stringify(S))}catch(e){say("Couldn’t save on this device; everything still works for this visit.")}};
+const wipe=()=>{try{Object.keys(localStorage).filter(k=>k.startsWith(K)).forEach(k=>localStorage.removeItem(k))}catch(e){}};
+let S=load();
+const root=document.documentElement,mq=matchMedia("(prefers-reduced-motion: reduce)");
+/* EXTEND: add a slider by giving it an id here as [min,max,default] and an <input type=range id="…"> in the HTML. */
+const F={n:[1,10000,1000],kg:[1,200,50],yrs:[1,10,1],cost:[10,80,38],price:[40,250,110]};
+const val=k=>{const v=Number(S[k]);return Number.isFinite(v)?Math.min(F[k][1],Math.max(F[k][0],v)):F[k][2]};
+
+/* ===== B. PARTICLE SKY (hero) =====
+   Warm, dusty "air motes" drift on a breeze; near the glowing filter core they turn clean teal.
+   Soft sprites + additive blending look like light through dust. Depth (z) changes size and brightness. */
+const cv=$("#fx"),c=cv.getContext&&cv.getContext("2d");
+let W=0,H=0,D=1,P=[],run=false,inView=true,lt=0,ft=0,fn=0,MAX=150,T=0,calm=false;
+const sprite=(r,g,b)=>{const s=document.createElement("canvas");s.width=s.height=64;const x=s.getContext("2d"),q=x.createRadialGradient(32,32,0,32,32,32);
+  q.addColorStop(0,`rgba(${r},${g},${b},.95)`);q.addColorStop(.4,`rgba(${r},${g},${b},.3)`);q.addColorStop(1,`rgba(${r},${g},${b},0)`);x.fillStyle=q;x.fillRect(0,0,64,64);return s};
+const SP=c?[sprite(255,188,120),sprite(94,234,212)]:[];           // [dusty, clean]
+const core=()=>W/D>760?[W*.74,H*.5,Math.min(H,W)*.16]:[W*.5,H*.8,Math.min(H,W)*.14]; // filter-core position and radius
+const mote=f=>({x:f?Math.random()*W:-30,y:Math.random()*H,z:.2+Math.random()*.8,v:.2+Math.random()*.5,w:Math.random()*6.28,k:0});
+function fit(){if(!c)return;const r=cv.getBoundingClientRect();D=Math.min(devicePixelRatio||1,2);W=cv.width=Math.round(r.width*D);H=cv.height=Math.round(r.height*D);
+  const n=Math.min(MAX,Math.round(W*H/D/D/7000));while(P.length<n)P.push(mote(true));P.length=Math.min(P.length,n)}
+function step(dt){const[cx,cy,R]=core();T+=dt;
+  for(const p of P){p.w+=dt*.002;p.x+=p.v*dt*.05*D;p.y+=Math.sin(p.w)*.25*D;
+    if(!p.k){const dx=cx-p.x,dy=cy-p.y,d=Math.hypot(dx,dy)||1;if(d<R*3){p.x+=dx/d*dt*.04*D;p.y+=dy/d*dt*.04*D}if(d<R*.7)p.k=1}else p.y-=dt*.02*D;
+    if(p.x>W+40||p.y<-40)Object.assign(p,mote(false))}}
+function draw(){const[cx,cy,R]=core();c.clearRect(0,0,W,H);c.globalCompositeOperation="lighter";
+  const pu=1+.06*Math.sin(T*.0016),g=c.createRadialGradient(cx,cy,0,cx,cy,R*2.6*pu);
+  g.addColorStop(0,"rgba(200,255,244,.85)");g.addColorStop(.25,"rgba(45,212,191,.35)");g.addColorStop(1,"rgba(45,212,191,0)");c.fillStyle=g;c.fillRect(cx-R*3,cy-R*3,R*6,R*6);
+  for(const p of P){const s=(10+34*p.z)*D;c.globalAlpha=(.16+.5*p.z)*(p.k?1:.8);c.drawImage(SP[p.k],p.x-s/2,p.y-s/2,s,s)}
+  c.globalAlpha=1;c.globalCompositeOperation="source-over"}
+function loop(t){if(!run)return;requestAnimationFrame(loop);const dt=Math.min(50,t-lt);lt=t;ft+=dt;
+  if(++fn===90){if(ft/90>26&&MAX>40){MAX=Math.round(MAX*.7);fit()}ft=0;fn=0} // ADAPTIVE QUALITY: slower devices get fewer particles
+  step(dt);draw()}
+function play(){if(!c)return;const go=!calm&&inView&&!document.hidden;   // only animate when visible and not paused
+  if(go&&!run){run=true;lt=performance.now();requestAnimationFrame(loop)}else if(!go){run=false;if(calm){step(0);draw()}}}
+function setCalm(v){calm=!!v;S.calm=calm;const b=$("#calm");b.setAttribute("aria-pressed",String(calm));b.textContent=calm?"▶ Resume animation":"⏸ Calm mode: pause animation";play()}
+$("#calm").onclick=()=>{setCalm(!calm);save()};
+if("IntersectionObserver"in window)new IntersectionObserver(e=>{inView=e[0].isIntersecting;play()}).observe($(".hero"));
+document.addEventListener("visibilitychange",play);
+let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(()=>{fit();if(!run&&c&&calm)draw()},150)});
+
+/* ===== C. THEME ===== */
+function setTheme(t){if(!["auto","light","dark"].includes(t))t="auto";root.dataset.theme=t;S.theme=t;$$("[data-th]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.th===t)))}
+$$("[data-th]").forEach(b=>b.onclick=()=>{setTheme(b.dataset.th);save()});
+
+/* ===== D. TABLE OF CONTENTS highlights the section you’re reading ===== */
+const links=$$(".toc a");
+if("IntersectionObserver"in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.setAttribute("aria-current",String(a.getAttribute("href")==="#"+e.target.id)))}),{rootMargin:"-25% 0px -65% 0px"});
+  $$("main section").forEach(s=>io.observe(s))}
+
+/* ===== E. LAYER EXPLORER ===== */
+const L={gel:["1 · Phase-change gel (PCG) layer","Plant-derived gel absorbs excess heat, stabilising the pillow’s temperature."],
+  core:["2 · Mycelium-carbon filter core","Passively cleans air of particulates and pollutants near the sleeper’s face."],
+  cover:["3 · Breathable bamboo cover","Enhances cooling while giving a soft, antimicrobial surface."],
+  refill:["4 · Refillable inserts","Core layers can be refreshed with new PCG and filter cartridges."]};
+function pick(k){$$("svg .layer").forEach(r=>r.classList.toggle("dim",r.dataset.l!==k));$$("#lb button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.l===k)));$("#li").textContent=L[k][0]+": "+L[k][1]}
+$$("[data-l]").forEach(el=>el.addEventListener("click",()=>pick(el.dataset.l)));
+
+/* ===== F. CALCULATORS – every formula is shown in plain sight ===== */
+const fmt=x=>x.toLocaleString(undefined,{maximumFractionDigits:1});
+function calc(){const t=val("n")*val("kg")*val("yrs")/1000;       // tonnes = pillows × kg × years ÷ 1000
+  $("#o1").textContent="≈ "+fmt(t)+" tonnes CO₂ over "+val("yrs")+(val("yrs")>1?" years":" year");
+  $("#o1b").textContent=fmt(t*.5)+" to "+fmt(t*1.5)+" tonnes";
+  const g=val("price")-val("cost"),m=g/val("price")*100;            // margin = (price − cost) ÷ price
+  $("#o2").textContent=Math.round(m)+"% gross margin";
+  $("#o2b").textContent="$"+g+" per pillow before overheads · "+(m>=55&&m<=70?"inside":"outside")+" the project’s 55–70% projection.";
+  for(const k in F){$("#"+k).value=val(k);$("#v"+k).textContent=val(k).toLocaleString()}}
+for(const k in F)$("#"+k).addEventListener("input",e=>{S[k]=Number(e.target.value);calc();save()});
+
+/* ===== G. BREATHING GUIDE (4 s in, 6 s out) ===== */
+let bt,on=false;const br=$("#breath"),bl=$("#bl"),bb=$("#bbtn");
+function cyc(){bl.textContent="Breathe in… (4)";br.className="in";bt=setTimeout(()=>{bl.textContent="Slowly out… (6)";br.className="";bt=setTimeout(cyc,6000)},4000)}
+bb.onclick=()=>{on=!on;clearTimeout(bt);bb.textContent=on?"Stop":"Begin";bb.setAttribute("aria-pressed",String(on));if(on)cyc();else{bl.textContent="Ready when you are";br.className=""}};
+$$(".rit").forEach((b,i)=>b.onchange=()=>{S.rit=$$(".rit").map(x=>x.checked);save()});
+
+/* ===== H. YOUR DEVICE, YOUR DATA – view, restore or erase local settings ===== */
+function applyAll(){setTheme(S.theme);setCalm(typeof S.calm==="boolean"?S.calm:mq.matches);calc();$$(".rit").forEach((b,i)=>b.checked=!!(S.rit||[])[i])}
+$("#show").onclick=()=>{const t=$("#bundle");t.value=JSON.stringify(S,null,1);t.select();say("Your settings are shown above. Copy them to keep or move them.")};
+$("#apply").onclick=()=>{try{const o=JSON.parse($("#bundle").value),n={};if(!o||typeof o!=="object")throw 0;
+  if(["auto","light","dark"].includes(o.theme))n.theme=o.theme;if(typeof o.calm==="boolean")n.calm=o.calm;
+  if(Array.isArray(o.rit))n.rit=o.rit.slice(0,4).map(Boolean);for(const k in F)if(k in o)n[k]=Number(o[k]);
+  S=n;applyAll();save();say("Settings applied from your pasted text.")}catch(e){say("That didn’t look like BioCool settings, so nothing was changed.")}};
+$("#reset").onclick=()=>{wipe();S={};$("#bundle").value="";applyAll();say("All saved settings were erased from this browser.")};
+
+/* ===== START ===== */
+applyAll();fit();play();
+})();
+</script>
+</body>
+</html>
+
